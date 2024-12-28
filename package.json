@@ -1,0 +1,32 @@
+{
+  "name": "newsbox",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "update": "npm update",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "news-vault",
+    "bookmarking",
+    "news-storage",
+    "link-organizer"
+  ],
+  "author": "mindStrata",
+  "license": "ISC",
+  "description": "NewsVault is a simple web app that allows you to save, organize, and access important news articles and links for later reading. Keep your favorite stories and resources in one place for easy access.",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.2",
+    "open-graph-scraper": "^6.8.3"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.9"
+  }
+}
