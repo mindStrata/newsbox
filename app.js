@@ -42,11 +42,11 @@ app.get("/", async (req, res, next) => {
 });
 
 // Start the server
-/* app.listen(port, () => {
+app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
-}); */
+});
 
-connectDatabase()
+/* connectDatabase()
   .then((res) => {
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
@@ -56,4 +56,4 @@ connectDatabase()
   .catch((err) => {
     console.log(`Error occured to run the server ${err}`);
     process.exit(1);
-  });
+  }); */

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mind Strata</title>
+    <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/styles.global.css" />
+  </head>
+  <body>
+    <%- include("partials/header") %>
+    <section class="card-section">
+      <% Newsobject.forEach(article => { %>
+      <a
+        href="<%= article.url %>"
+        target="_blank"
+        style="text-decoration: none; color: inherit"
+      >
+        <div class="card container">
+          <img src="<%= article.image %>" alt="News Image" class="card-image" />
+          <div class="card-content">
+            <h3 class="card-title"><%= article.title %></h3>
+            <p class="card-description"><%= article.description %></p>
+            <p class="card-source">Source: <%= article.publisher %></p>
+          </div>
+        </div>
+      </a>
+      <% }); %>
+    </section>
+    <div>
+      <button class="fixed-button" onclick="openModal()">+</button>
+
+      <div class="link-modal" id="modal">
+        <div class="link-modal-content">
+          <span class="link-close-btn" onclick="closeModal()">&times;</span>
+          <h2 class="link-modal-title">Enter Information</h2>
+          <input
+            type="text"
+            id="userInput"
+            class="link-modal-input"
+            placeholder="Type something..."
+          />
+          <div class="link-modal-buttons">
+            <button class="link-modal-submit-btn" onclick="submitInput()">
+              Submit
+            </button>
+            <button class="link-modal-cancel-btn" onclick="closeModal()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="/JS/home.js"></script>
+</html>
