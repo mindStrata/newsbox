@@ -1,35 +1,65 @@
 import express from "express";
 import OpenGraphScraper from "open-graph-scraper";
+import { NewsItem } from "../models/news.model.js";
+
 const router = express.Router();
-import { Newsobject } from "../test.js";
 
 router.get("/home", async (req, res, next) => {
-  res.render("home", { Newsobject });
+  try {
+    const newsItem = await NewsItem.find();
+    /*  console.log(newsItem); */
+    res.render("home", { newsItem });
+  } catch (error) {
+    console.error("Error rendering home page:", error);
+    res.status(500).send("Error rendering home page.");
+  }
 });
 
 router.post("/new-news", async (req, res, next) => {
   const url = req.body.url;
+
   if (!url) {
     return res.status(400).send("URL is required");
   }
 
   try {
     const { result } = await OpenGraphScraper({ url });
-    const data = result.jsonLD[0];
-    /*  console.log({
-      publisher: result.jsonLD[0].publisher,
-      publishedDate: result.jsonLD[0].datePublished,
-      title: result.ogTitle,
-      Image: result.ogImage,
-      Descriptione: result.ogDescription,
-      URL: result.ogUrl,
-      SiteName: result.ogSiteName,
-      tags: result.ogArticleTag,
-    }); */
-    res.render("home", { Newsobject });
+    const { ogTitle, ogUrl, ogImage, ogDescription, jsonLD, ogSiteName } =
+      result;
+
+    let publisherName = null;
+    if (Array.isArray(jsonLD) && jsonLD.length > 0 && jsonLD[0].publisher) {
+      const publisher = jsonLD[0].publisher;
+      if (publisher && publisher.name) {
+        publisherName = publisher.name;
+      }
+    }
+
+    let imageUrl = null;
+    if (Array.isArray(ogImage) && ogImage.length > 0 && ogImage[0].url) {
+      imageUrl = ogImage[0].url;
+    }
+
+    const newNews = new NewsItem({
+      title: ogTitle,
+      image: imageUrl,
+      siteName: ogSiteName,
+      description: ogDescription,
+      link: ogUrl,
+      source: publisherName || "Unknown",
+    });
+
+    await newNews.save();
+
+    res.send(newNews);
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Error scraping OpenGraph data");
+    console.error(
+      "Error during Open Graph scraping or saving to database:",
+      error
+    );
+    res.status(500).send({
+      error: "Failed to scrape Open Graph data or save to the database.",
+    });
   }
 });
 

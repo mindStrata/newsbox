@@ -10,9 +10,39 @@
   <body>
     <%- include("partials/header") %>
     <section class="card-section">
-      <% Newsobject.forEach(article => { %>
+      <% newsItem.forEach(article => { %>
       <a
-        href="<%= article.url %>"
+        href="<%= article.link %>"
+        target="_blank"
+        style="text-decoration: none; color: inherit"
+      >
+        <div class="card container">
+          <div class="card-image-container">
+            <img
+              src="<%= article.image %>"
+              alt="News Image"
+              class="card-image"
+            />
+
+            <div class="card-source-overlay">
+              <% if (article.source) { %><%= article.source %> <% } else if
+              (article.siteName) { %><%= article.siteName %> <% } else {
+              %>Unknown <% } %>
+            </div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title"><%= article.title %></h3>
+            <p class="card-description"><%= article.description %></p>
+          </div>
+        </div>
+      </a>
+      <% }); %>
+    </section>
+
+    <!--   <section class="card-section">
+      <% newsItem.forEach(article => { %>
+      <a
+        href="<%= article.link %>"
         target="_blank"
         style="text-decoration: none; color: inherit"
       >
@@ -21,12 +51,12 @@
           <div class="card-content">
             <h3 class="card-title"><%= article.title %></h3>
             <p class="card-description"><%= article.description %></p>
-            <p class="card-source">Source: <%= article.publisher %></p>
+            <p class="card-source">Source: <%= article.source %></p>
           </div>
         </div>
       </a>
       <% }); %>
-    </section>
+    </section> -->
     <div>
       <button class="fixed-button" onclick="openModal()">+</button>
 

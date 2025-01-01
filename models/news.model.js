@@ -1,10 +1,16 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const newsSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  image: { type: String, required: true },
-  source: { type: String, required: true },
-  link: { type: String, required: true },
-});
+const newsSchema = new mongoose.Schema(
+  {
+    title: { type: String },
+    image: { type: String },
+    siteName: { type: String },
+    description: { type: String },
+    link: { type: String },
+    source: { type: String },
+  },
+  { timestamps: true }
+);
 
-export const News = mongoose.models.Link || mongoose.model("News", newsSchema);
+export const NewsItem =
+  mongoose.models.Link || mongoose.model("News", newsSchema);
