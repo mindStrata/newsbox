@@ -61,7 +61,7 @@ body {
   margin-bottom: 10px;
   border-bottom: 2px solid var(--color-black-secondary);
   top: 0px;
-  z-index: 1000px;
+  z-index: 1;
 }
 
 .global-logo {

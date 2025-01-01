@@ -7,6 +7,7 @@ const config = {
     uri: process.env.DATABASE_URI || "mongodb://localhost:27017/", // MongoDB connection URI
     dbName: process.env.DATABASE_NAME || "Dev-Database", // MongoDB database name
   },
+  Server_URL: process.env.APP_URL || `http://localhost:${port}`,
 };
 
 export default config;

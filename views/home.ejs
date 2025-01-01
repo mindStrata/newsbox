@@ -32,31 +32,16 @@
           </div>
           <div class="card-content">
             <h3 class="card-title"><%= article.title %></h3>
-            <p class="card-description"><%= article.description %></p>
+            <p class="card-description">
+              <%= article.description.length > 200 ?
+              article.description.slice(0, 200) + "..." : article.description %>
+            </p>
           </div>
         </div>
       </a>
       <% }); %>
     </section>
 
-    <!--   <section class="card-section">
-      <% newsItem.forEach(article => { %>
-      <a
-        href="<%= article.link %>"
-        target="_blank"
-        style="text-decoration: none; color: inherit"
-      >
-        <div class="card container">
-          <img src="<%= article.image %>" alt="News Image" class="card-image" />
-          <div class="card-content">
-            <h3 class="card-title"><%= article.title %></h3>
-            <p class="card-description"><%= article.description %></p>
-            <p class="card-source">Source: <%= article.source %></p>
-          </div>
-        </div>
-      </a>
-      <% }); %>
-    </section> -->
     <div>
       <button class="fixed-button" onclick="openModal()">+</button>
 

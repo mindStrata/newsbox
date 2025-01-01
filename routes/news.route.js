@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/home", async (req, res, next) => {
   try {
-    const newsItem = await NewsItem.find();
+    const newsItem = await NewsItem.find().sort({ createdAt: -1 });
     /*  console.log(newsItem); */
     res.render("home", { newsItem });
   } catch (error) {
@@ -17,7 +17,8 @@ router.get("/home", async (req, res, next) => {
 
 router.post("/new-news", async (req, res, next) => {
   const url = req.body.url;
-
+  console.log(url);
+  
   if (!url) {
     return res.status(400).send("URL is required");
   }
@@ -43,10 +44,10 @@ router.post("/new-news", async (req, res, next) => {
     const newNews = new NewsItem({
       title: ogTitle,
       image: imageUrl,
-      siteName: ogSiteName,
+      // siteName: ogSiteName,
       description: ogDescription,
       link: ogUrl,
-      source: publisherName || "Unknown",
+      source: publisherName || ogSiteName,
     });
 
     await newNews.save();
