@@ -1,16 +1,6 @@
-/**
- * @module config/db.js
- * @description Connects to the MongoDB database using Mongoose.
- */
 import mongoose from "mongoose";
 import config from "./config.js";
 
-/**
- * @function connectDatabase
- * @async
- * @description Establishes a connection to the MongoDB database using the provided configuration.
- * @returns {Promise<void>} Does not return a value; logs success or failure.
- */
 const connectDatabase = async () => {
   try {
     await mongoose.connect(config.db.uri, {

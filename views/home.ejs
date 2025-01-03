@@ -3,14 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mind Strata</title>
+    <title><%= user %></title>
     <link rel="stylesheet" href="/css/home.css" />
     <link rel="stylesheet" href="/css/styles.global.css" />
   </head>
   <body>
     <%- include("partials/header") %>
     <section class="card-section">
-      <% newsItem.forEach(article => { %>
+      <% if (newsItem.length == 0) { %>
+      <h3>You do not have any bookmarked news articles <%= user %></h3>
+      <% } %> <% newsItem.forEach(article => { %>
       <a
         href="<%= article.link %>"
         target="_blank"
@@ -67,5 +69,8 @@
       </div>
     </div>
   </body>
-  <script src="/JS/home.js"></script>
+  <script>
+    window.config = JSON.stringify(config);
+  </script>
+  <script type="module" src="/js/home.js"></script>
 </html>

@@ -45,7 +45,7 @@
 }
 
 body {
-  font-family: var(--font-family-Secondary);
+  font-family: var(--font-family-primary);
 }
 
 /* COMPONENTS */
@@ -65,10 +65,10 @@ body {
 }
 
 .global-logo {
-  font-family: var(--font-family-brand-Primary);
+  /*  font-family: var(--font-family-brand-Primary);
   font-weight: bold;
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 500; */
 }
 
 .global-logout-btn {
@@ -159,7 +159,7 @@ body {
   align-items: center;
   gap: 8px;
   margin-top: 20px;
-  font-family: var(--font-family-tertiary);
+  /* font-family: var(--font-family-primary); */
 }
 
 .modal .modal-content .footer .cancle {
@@ -174,6 +174,7 @@ body {
   font-weight: 500;
   font-size: 15px;
   border-radius: 5px;
+  font-family: var(--font-family-primary);
 }
 
 .modal .modal-content .footer .logout {
@@ -189,4 +190,5 @@ body {
   font-weight: 500;
   font-size: 15px;
   border-radius: 5px;
+  font-family: var(--font-family-primary);
 }

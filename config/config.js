@@ -8,6 +8,7 @@ const config = {
     dbName: process.env.DATABASE_NAME || "Dev-Database", // MongoDB database name
   },
   Server_URL: process.env.APP_URL || `http://localhost:${port}`,
+  jwtSecret: process.env.JWT_SECRET || "some_secret_code",
 };
 
 export default config;

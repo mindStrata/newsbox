@@ -1,4 +1,7 @@
-import config from "../../config/config";
+// const config = require("../../config/config");
+
+// console.log(config);
+console.log(window.config);
 
 /* Add link modal */
 function openModal() {

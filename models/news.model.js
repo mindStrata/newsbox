@@ -6,8 +6,17 @@ const newsSchema = new mongoose.Schema(
     image: { type: String },
     siteName: { type: String },
     description: { type: String },
-    link: { type: String },
+    link: {
+      type: String,
+      required: true,
+      unique: [true, "Link already exists"],
+    },
     source: { type: String },
+    user: {
+      type: mongoose.Schema.Types.ObjectId, // Reference to User model
+      ref: "User",
+      required: true, // User is required
+    },
   },
   { timestamps: true }
 );
