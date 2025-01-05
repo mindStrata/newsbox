@@ -14,8 +14,7 @@ document
     }
 
     try {
-      // Simulate a login request with fetch
-      const response = await fetch("http://localhost:4040/login", {
+      const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,7 +22,6 @@ document
         body: JSON.stringify({ email, password }),
       });
 
-      // Handle the response
       if (response.ok) {
         const data = await response.json();
         alert(data.message || "Login successful!");

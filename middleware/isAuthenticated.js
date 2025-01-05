@@ -9,11 +9,13 @@ const isAuthenticated = async (req, res, next) => {
     if (!token) {
       return res.redirect("/login");
     }
+
     jwt.verify(token, config.jwtSecret, async (err, decoded) => {
       if (err) {
         if (err.name === "TokenExpiredError") {
           return next(createHttpError(401, "Token Expired"));
         }
+
         return res.send(`
           <html>
             <body>
@@ -24,6 +26,7 @@ const isAuthenticated = async (req, res, next) => {
           </html>
         `);
       }
+
       req.user = await User.findById({ _id: decoded._id });
       return next();
     });

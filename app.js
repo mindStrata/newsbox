@@ -44,7 +44,8 @@ app.use("/", AuthRouter);
 
 // Home or base route
 app.get("/", async (req, res, next) => {
-  res.render("index", { ogData: null });
+  res.redirect("/login");
+  // res.render("index", { ogData: null });
 });
 
 app.all("*", async (req, res, next) => {

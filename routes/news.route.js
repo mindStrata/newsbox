@@ -1,27 +1,32 @@
 import express from "express";
 import OpenGraphScraper from "open-graph-scraper";
-import { NewsItem } from "../models/news.model.js";
 import config from "../config/config.js";
 import isAuthenticated from "../middleware/isAuthenticated.js";
+import { NewsItem } from "../models/news.model.js";
+import { User } from "../models/user.model.js";
 
 const router = express.Router();
 
 router.get("/home", isAuthenticated, async (req, res, next) => {
   try {
-    const items = await NewsItem.find({user: req.user._id})
-    // const newsItem = await NewsItem.find().sort({ createdAt: -1 });
-    /*  console.log(newsItem); */
+    const items = await NewsItem.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
     let user = "Mind Strata";
-    res.render("home", { newsItem: items, appURL: config.Server_URL, user: req.user.name , config});
+    res.render("home", {
+      newsItem: items,
+      base_URL: config.Server_URL,
+      user: req.user.name,
+      config,
+    });
   } catch (error) {
     console.error("Error rendering home page:", error);
     res.status(500).send("Error rendering home page.");
   }
 });
 
-router.post("/new-news", async (req, res, next) => {
+router.post("/new-news", isAuthenticated, async (req, res, next) => {
   const url = req.body.url;
-  console.log(url);
 
   if (!url) {
     return res.status(400).send("URL is required");
@@ -52,9 +57,15 @@ router.post("/new-news", async (req, res, next) => {
       description: ogDescription,
       link: ogUrl,
       source: publisherName || ogSiteName,
+      user: req.user._id,
     });
 
     await newNews.save();
+    await User.findByIdAndUpdate(
+      req.user._id,
+      { $push: { newsItems: newNews._id }, $inc: { __v: 1 } },
+      { new: true }
+    );
 
     res.send(newNews);
   } catch (error) {

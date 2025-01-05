@@ -1,8 +1,3 @@
-// const config = require("../../config/config");
-
-// console.log(config);
-console.log(window.config);
-
 /* Add link modal */
 function openModal() {
   document.getElementById("modal").style.display = "flex";
@@ -21,7 +16,7 @@ function submitInput() {
     // Prepare data to send
     const data = { url: inputValue };
 
-    fetch(`${config.Server_URL}/new-news`, {
+    fetch(`${BASE_URL}/new-news`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +66,26 @@ window.onclick = function (event) {
   }
 };
 
-function logoutUser() {
-  alert("You have been logged out.");
-  modal.style.display = "none";
+async function logoutUser() {
+  try {
+    const response = await fetch(`${BASE_URL}/logout`, {
+      method: "POST",
+    });
+
+    if (response.ok) {
+      alert("You have been logged out successfully.");
+
+      const modal = document.getElementById("modal");
+      if (modal) modal.style.display = "none";
+
+      // Redirect to login page
+      window.location.href = "/login";
+    } else {
+      const errorData = await response.json();
+      alert(errorData.message || "Failed to log out. Please try again.");
+    }
+  } catch (error) {
+    console.error("Error during logout:", error);
+    alert("An error occurred while logging out. Please try again.");
+  }
 }
