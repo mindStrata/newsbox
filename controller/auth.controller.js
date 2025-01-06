@@ -43,19 +43,21 @@ export const LoginUserPOST = async (req, res, next) => {
     if (!isMatched) return next(createHttpError(401, "Invalid credentials"));
 
     const token = jwt.sign({ _id: user._id }, config.jwtSecret, {
-      expiresIn: "1h",
+      expiresIn: "10d",
     });
 
     res.cookie("token", token, {
       httpOnly: true,
       secure: config.SERVER_ENVIRONMENT === "production" ? true : false,
-      maxAge: 60 * 60 * 1000, // One hour
+      maxAge: 10 * 24 * 60 * 60 * 1000, // One hour
     });
 
     // Render login with a toast
-    res.render("login", {
-      toast: { type: "success", message: "Login successful!" },
-      api: config.Server_URL,
+    res.status(200).json({
+      success: true,
+      message: "Login successful",
+      token,
+      error: null,
     });
   } catch (error) {
     return next(error);

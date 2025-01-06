@@ -1,82 +1,13 @@
 import express from "express";
-import OpenGraphScraper from "open-graph-scraper";
-import config from "../config/config.js";
+import { addNewsItems, getRecentNewsItems, showHomeRoute } from "../controller/news.controller.js";
 import isAuthenticated from "../middleware/isAuthenticated.js";
-import { NewsItem } from "../models/news.model.js";
-import { User } from "../models/user.model.js";
 
 const router = express.Router();
 
-router.get("/home", isAuthenticated, async (req, res, next) => {
-  try {
-    const items = await NewsItem.find({ user: req.user._id }).sort({
-      createdAt: -1,
-    });
-    let user = "Mind Strata";
-    res.render("home", {
-      newsItem: items,
-      base_URL: config.Server_URL,
-      user: req.user.name,
-      config,
-    });
-  } catch (error) {
-    console.error("Error rendering home page:", error);
-    res.status(500).send("Error rendering home page.");
-  }
-});
+router.get("/home", isAuthenticated, showHomeRoute);
 
-router.post("/new-news", isAuthenticated, async (req, res, next) => {
-  const url = req.body.url;
+router.get("/api/news", isAuthenticated, getRecentNewsItems);
 
-  if (!url) {
-    return res.status(400).send("URL is required");
-  }
-
-  try {
-    const { result } = await OpenGraphScraper({ url });
-    const { ogTitle, ogUrl, ogImage, ogDescription, jsonLD, ogSiteName } =
-      result;
-
-    let publisherName = null;
-    if (Array.isArray(jsonLD) && jsonLD.length > 0 && jsonLD[0].publisher) {
-      const publisher = jsonLD[0].publisher;
-      if (publisher && publisher.name) {
-        publisherName = publisher.name;
-      }
-    }
-
-    let imageUrl = null;
-    if (Array.isArray(ogImage) && ogImage.length > 0 && ogImage[0].url) {
-      imageUrl = ogImage[0].url;
-    }
-
-    const newNews = new NewsItem({
-      title: ogTitle,
-      image: imageUrl,
-      // siteName: ogSiteName,
-      description: ogDescription,
-      link: ogUrl,
-      source: publisherName || ogSiteName,
-      user: req.user._id,
-    });
-
-    await newNews.save();
-    await User.findByIdAndUpdate(
-      req.user._id,
-      { $push: { newsItems: newNews._id }, $inc: { __v: 1 } },
-      { new: true }
-    );
-
-    res.send(newNews);
-  } catch (error) {
-    console.error(
-      "Error during Open Graph scraping or saving to database:",
-      error
-    );
-    res.status(500).send({
-      error: "Failed to scrape Open Graph data or save to the database.",
-    });
-  }
-});
+router.post("/new-news", isAuthenticated, addNewsItems);
 
 export default router;

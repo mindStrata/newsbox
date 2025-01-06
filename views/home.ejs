@@ -11,7 +11,7 @@
     <%- include("partials/header") %>
     <section class="card-section">
       <% if (newsItem.length == 0) { %>
-      <h3>You do not have any bookmarked news articles <%= user %></h3>
+      <h3>You do not have any bookmarked news articles, <%= user %>.</h3>
       <% } %> <% newsItem.forEach(article => { %>
       <a
         href="<%= article.link %>"
@@ -25,7 +25,6 @@
               alt="News Image"
               class="card-image"
             />
-
             <div class="card-source-overlay">
               <% if (article.source) { %><%= article.source %> <% } else if
               (article.siteName) { %><%= article.siteName %> <% } else {
@@ -68,9 +67,6 @@
         </div>
       </div>
     </div>
-    <script>
-      const BASE_URL = "<%= base_URL %>";
-    </script>
     <script src="/js/home.js"></script>
   </body>
 </html>

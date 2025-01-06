@@ -16,7 +16,7 @@ function submitInput() {
     // Prepare data to send
     const data = { url: inputValue };
 
-    fetch(`${BASE_URL}/new-news`, {
+    fetch(`/new-news`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,6 +35,7 @@ function submitInput() {
       })
       .then((responseData) => {
         alert("Data submitted successfully");
+        refreshNews();
         closeModal();
         inputElement.value = "";
       })
@@ -68,7 +69,7 @@ window.onclick = function (event) {
 
 async function logoutUser() {
   try {
-    const response = await fetch(`${BASE_URL}/logout`, {
+    const response = await fetch("/logout", {
       method: "POST",
     });
 
@@ -87,5 +88,63 @@ async function logoutUser() {
   } catch (error) {
     console.error("Error during logout:", error);
     alert("An error occurred while logging out. Please try again.");
+  }
+}
+
+async function refreshNews() {
+  try {
+    // Fetch the latest news items
+    const response = await fetch("/api/news");
+    const data = await response.json();
+
+    if (data.success) {
+      const newsItems = data.newsItem;
+
+      // Get the container to update
+      const cardSection = document.querySelector(".card-section");
+
+      // Clear existing content
+      cardSection.innerHTML = "";
+
+      // Populate the new content dynamically
+      if (newsItems.length === 0) {
+        cardSection.innerHTML = `<h3>You do not have any bookmarked news articles, <%= user %>.</h3>`;
+      } else {
+        newsItems.forEach((article) => {
+          const articleHTML = `
+        <a
+          href="${article.link}"
+          target="_blank"
+          style="text-decoration: none; color: inherit"
+        >
+          <div class="card container">
+            <div class="card-image-container">
+              <img
+                src="${article.image}"
+                alt="News Image"
+                class="card-image"
+              />
+              <div class="card-source-overlay">
+                ${article.source || article.siteName || "Unknown"}
+              </div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">${article.title}</h3>
+              <p class="card-description">
+                ${
+                  article.description.length > 200
+                    ? article.description.slice(0, 200) + "..."
+                    : article.description
+                }
+              </p>
+            </div>
+          </div>
+        </a>`;
+          cardSection.insertAdjacentHTML("beforeend", articleHTML);
+        });
+      }
+    }
+  } catch (error) {
+    console.error("Error refreshing news:", error);
   }
 }
