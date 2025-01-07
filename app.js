@@ -72,7 +72,7 @@ connectDatabase()
   .then((res) => {
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
-      console.log(res);
+      // console.log(res);
     });
   })
   .catch((err) => {

@@ -11,37 +11,46 @@ function closeModal() {
 function submitInput() {
   const inputElement = document.getElementById("userInput");
   const inputValue = inputElement.value;
+  const spinner = document.getElementById("spinner");
 
   if (inputValue) {
-    // Prepare data to send
-    const data = { url: inputValue };
+    // Display the spinner
+    spinner.style.display = "flex";
 
     fetch(`/new-news`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ url: inputValue }),
     })
       .then((response) => {
+
         if (response.ok) {
           return response.json();
         } else {
           return response.json().then((err) => {
-            console.error("Server Error Response:", err);
-            throw new Error(err.error || "Unknown server error");
+            // console.error("Server Error Response:", err);
+            const errorMessage =
+              err.error?.message || err.error || "Unknown server error";
+            throw new Error(errorMessage);
           });
         }
       })
-      .then((responseData) => {
-        alert("Data submitted successfully");
+      .then((response) => {
+        alert(response.message);
         refreshNews();
         closeModal();
         inputElement.value = "";
       })
       .catch((error) => {
-        console.error("Error:", error.message);
-        alert("An error occurred: " + error.message);
+        // console.error("Client-Side Error:", error.message); // Log the actual error message
+        alert(`Error: ${error.message}`); // Show the error message to the user
+        closeModal();
+        inputElement.value = "";
+      })
+      .finally(() => {
+        spinner.style.display = "none";
       });
   } else {
     alert("Please enter something.");
@@ -86,7 +95,7 @@ async function logoutUser() {
       alert(errorData.message || "Failed to log out. Please try again.");
     }
   } catch (error) {
-    console.error("Error during logout:", error);
+    // console.error("Error during logout:", error);
     alert("An error occurred while logging out. Please try again.");
   }
 }
@@ -145,6 +154,6 @@ async function refreshNews() {
       }
     }
   } catch (error) {
-    console.error("Error refreshing news:", error);
+    // console.error("Error refreshing news:", error);
   }
 }

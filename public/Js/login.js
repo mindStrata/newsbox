@@ -3,11 +3,9 @@ document
   .addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // Get form data
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-    // Simple validation
     if (!email || !password) {
       alert("Please fill out all fields.");
       return;
@@ -22,16 +20,26 @@ document
         body: JSON.stringify({ email, password }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        alert(data.message || "Login successful!");
-        window.location.href = "/home"; // Redirect to dashboard
-      } else {
-        const errorData = await response.json();
-        alert(errorData.message || "Login failed.");
-      }
+      const data = await handleResponse(response);
+
+      alert(data.message || "Login successful!");
+      window.location.href = "/home";
     } catch (error) {
-      console.error("Error during login:", error);
-      alert("An error occurred. Please try again.");
+      // console.error("Login Error:", error.message);
+      alert(`Error: ${error.message}`);
     }
   });
+
+// Throw the proper messages
+async function handleResponse(response) {
+  if (response.ok) {
+    return await response.json();
+  } else {
+    const errorData = await response.json();
+    throw new Error(
+      errorData.message ||
+        errorData.error.message ||
+        "An unknown error occurred."
+    );
+  }
+}

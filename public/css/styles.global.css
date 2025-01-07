@@ -12,7 +12,7 @@
   --color-red-primary: #de1237;
   --color-blue-primary: #276ef2;
 
-  /* ++++BACKGROUND COLOR */
+  /* ++++BACKGROUND COLOR++++ */
   --background-primary: #000000;
   --background-secondary: #f2f2f2;
   --background-tertiary: #ffffff;
@@ -22,30 +22,38 @@
   --background-hover: #1a1a1a;
 
   /* ++++BORDER RADIUS++++ */
-  --border-radius-sm: 25%;
-  --border-radius-md: 50%;
-  --border-radius-lg: 75%;
-  --border-radius-full: 100%;
+  --border-radius-sm: 5px;
+  --border-radius-md: 10px;
+  --border-radius-lg: 15px;
+  --border-radius-full: 50px;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("../fonts/Geist-VariableFont_wght.ttf") format("woff2");
+  font-weight: 100 900; /* Specifies the range of weights available */
+  font-stretch: 75% 125%; /* Specifies the range of widths available */
+  font-style: normal;
 }
 
 @font-face {
   font-family: "Geologica";
-  src: url("../fonts/Geologica_Auto-Regular.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Roboto";
-  src: url("../fonts/Roboto-Regular.ttf") format("truetype");
+  src: url("../fonts/Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf")
+    format("truetype");
+  font-weight: 100 900; /* Specifies the range of weights available */
+  font-style: normal italic; /* Covers normal and slanted styles */
+  font-variation-settings: "CRSV" 0, "SHRP" 0, "slnt" 0, "wght" 400; /* Default axis settings */
 }
 
 :root {
   --font-family-brand-Primary: Georgia, "Times New Roman", Times, serif;
   --font-family-primary: "Geologica", sans-serif;
-  --font-family-Secondary: "Roboto", sans-serif;
+  --font-family-tertiary: "Geist", sans-serif;
 }
 
 body {
   font-family: var(--font-family-primary);
+  /* font-weight: normal; */
 }
 
 /* COMPONENTS */

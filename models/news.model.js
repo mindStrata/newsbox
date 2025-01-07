@@ -9,7 +9,6 @@ const newsSchema = new mongoose.Schema(
     link: {
       type: String,
       required: true,
-      unique: [true, "Link already exists"],
     },
     source: { type: String },
     user: {

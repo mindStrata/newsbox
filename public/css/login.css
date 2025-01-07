@@ -18,7 +18,7 @@
 }
 
 .login_form_section > div > h2 {
-  font-weight: 100;
+  font-weight: 600;
   font-size: xx-large;
 }
 
@@ -39,6 +39,12 @@
 
 .login_form .form_sections .login_form_label {
   font-size: 18px;
+  font-weight: 400;
+}
+
+.login_form .form_sections > input {
+  font-family: var(--font-family-primary);
+  font-weight: 300;
 }
 
 .login_form .form_sections .login_form_input {
@@ -52,6 +58,12 @@
   font-size: 18px;
   font-weight: lighter;
   transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login_form .form_sections .login_form_input::placeholder {
+  font-family: var(--font-family-primary);
+  font-size: 18px;
+  font-weight: 200;
 }
 
 .login_form .form_sections .login_form_input:focus {
@@ -72,5 +84,6 @@
   font-weight: lighter;
   color: var(--color-white-primary);
   font-family: var(--font-family-primary);
+  font-weight: 400;
   cursor: pointer;
 }

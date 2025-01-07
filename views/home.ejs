@@ -8,11 +8,21 @@
     <link rel="stylesheet" href="/css/styles.global.css" />
   </head>
   <body>
-    <%- include("partials/header") %>
+    <%- include("partials/header") %> <%- include("partials/spinner") %>
+
     <section class="card-section">
-      <% if (newsItem.length == 0) { %>
-      <h3>You do not have any bookmarked news articles, <%= user %>.</h3>
-      <% } %> <% newsItem.forEach(article => { %>
+      <div class="empty-msg-section">
+        <% if (newsItem.length == 0) { %>
+        <h3 class="empty-msg-heading">
+          @<%= username %> hasn't stored news article
+        </h3>
+        <p class="empty-msg-text">
+          Once they do, those news articles will appear here.
+        </p>
+        <% } %>
+      </div>
+
+      <% newsItem.forEach(article => { %>
       <a
         href="<%= article.link %>"
         target="_blank"
@@ -50,6 +60,7 @@
         <div class="link-modal-content">
           <span class="link-close-btn" onclick="closeModal()">&times;</span>
           <h2 class="link-modal-title">Enter Information</h2>
+
           <input
             type="text"
             id="userInput"

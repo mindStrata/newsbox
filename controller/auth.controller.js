@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 import jwt from "jsonwebtoken";
 import config from "../config/config.js";
 import { User } from "../models/user.model.js";
@@ -7,41 +8,43 @@ export const LoginUserGET = async (req, res, next) => {
   try {
     const { token } = req.cookies;
 
+    //If there is no token then render the login page
     if (!token) {
-      return res.render("login", { toast: null, api: config.Server_URL }); // No token, redirect to login
+      return res.render("login");
     }
 
-    // Verify the token
+    // If the token is invalid then show the login page to reset the all bugs
     jwt.verify(token, config.jwtSecret, (err, decoded) => {
       if (err) {
-        // Invalid token, redirect to login
-        return res.render("login", { toast: null });
+        return res.render("login");
       }
 
       // Token is valid, redirect to home
       return res.redirect("/home");
     });
   } catch (error) {
-    // console.error("Error during login process:", error);
-    return next(error); // Pass the error to the middleware
+    return next(error);
   }
 };
 
 /* POST METHOD */
 export const LoginUserPOST = async (req, res, next) => {
+  // Get the email and password
   const { email, password } = req.body;
 
   try {
+    // Find the user
     const user = await User.findOne({ email }).select("+password");
 
-    if (!user) return next(createHttpError.NotFound());
+    if (!user) return next(createHttpError.NotFound("User not registered"));
     if (!user.password)
       return next(createHttpError(500, "Something went wrong..."));
-
-    const isMatched = user.password === password;
+    // Match the password, if not matched then throw error
+    const isMatched = await user.comparePassword(password);
 
     if (!isMatched) return next(createHttpError(401, "Invalid credentials"));
 
+    // If the credentials are correct then generate token and store it to cookies for further authentication
     const token = jwt.sign({ _id: user._id }, config.jwtSecret, {
       expiresIn: "10d",
     });
@@ -66,12 +69,17 @@ export const LoginUserPOST = async (req, res, next) => {
 
 export const registerUserPOST = async (req, res, next) => {
   try {
+    // Get the required field values to register the user
     const { name, username, email, password } = req.body;
 
     // Validate required fields
     if (!name || !username || !email || !password) {
       return res.status(400).json({ message: "All fields are required." });
     }
+
+    //Find the user and if exists already then throw error
+    const isExists = await User.findOne({ email });
+    if (isExists) return next(createHttpError(404, "User already exists."));
 
     const newUser = new User({
       name,
@@ -98,13 +106,12 @@ export const registerUserPOST = async (req, res, next) => {
   }
 };
 
-export const logoutUser = (req, res) => {
+export const logoutUser = (req, res, next) => {
   res.clearCookie("token", {
-    httpOnly: true, // Recommended for security
-    secure: process.env.NODE_ENV === "production", // Ensure it's secure in production
+    httpOnly: true,
+    secure: config.SERVER_ENVIRONMENT === "production" ? true : false, // Ensure it's secure in production
     sameSite: "strict", // Prevent CSRF attacks
   });
 
-  // Redirect to the login page
   return res.redirect("/login");
 };
