@@ -79,3 +79,5 @@ connectDatabase()
     console.log(`Error occured to run the server ${err}`);
     process.exit(1);
   });
+
+export default app;

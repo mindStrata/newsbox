@@ -34,7 +34,10 @@ export const LoginUserPOST = async (req, res, next) => {
 
   try {
     // Find the user
-    const user = await User.findOne({ email }).select("+password");
+    // const user = await User.findOne({ email }).select("+password");
+    const user = await User.findOne({
+      $or: [{ email }, { username: email }], // Check both email and username
+    }).select("+password");
 
     if (!user) return next(createHttpError.NotFound("User not registered"));
     if (!user.password)
