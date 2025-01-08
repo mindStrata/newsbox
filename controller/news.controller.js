@@ -101,3 +101,21 @@ export const addNewsItems = async (req, res, next) => {
     });
   }
 };
+
+export const filterNewsBySource = async (req, res, next) => {
+  try {
+    const user = req.user._id;
+    if (!user)
+      return next(createHttpError.InternalServerError("Something went worng"));
+
+    const sources = await NewsItem.distinct("source", {
+      user,
+    });
+    if (!sources || sources.length < 0)
+      return next(createHttpError.NotFound("No source found"));
+    sources.unshift("All");
+    res.json({ success: true, error: null, sources });
+  } catch (error) {
+    next(error);
+  }
+};

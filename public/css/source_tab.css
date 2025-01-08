@@ -1,0 +1,31 @@
+.source-tab-container {
+  display: flex;
+  flex-direction: row;
+  padding: 6px 30px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.source-tab-container > ul {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  gap: 5px;
+  padding: 0;
+  margin: 0;
+}
+
+.source-tab-container > ul > li {
+  padding: 8px 16px;
+  border-radius: var(--border-radius-full);
+  background-color: var(--background-input);
+  font-weight: 300;
+  font-size: 15px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.source-tab-container > ul > li:nth-child(1) {
+  background-color: var(--background-primary);
+  color: var(--color-white-primary);
+}

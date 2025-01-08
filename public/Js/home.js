@@ -25,7 +25,6 @@ function submitInput() {
       body: JSON.stringify({ url: inputValue }),
     })
       .then((response) => {
-
         if (response.ok) {
           return response.json();
         } else {
@@ -40,6 +39,7 @@ function submitInput() {
       .then((response) => {
         alert(response.message);
         refreshNews();
+        fetchNewsSources();
         closeModal();
         inputElement.value = "";
       })
@@ -57,7 +57,9 @@ function submitInput() {
   }
 }
 
-/* Logout modal */
+////////////////////////////////////////////////
+/* Logout user */
+///////////////////////////////////////////////
 const modal = document.getElementById("myModal");
 const openModalBtn = document.getElementById("openModalBtn");
 const closeModalBtn = document.getElementById("closeModalBtn");
@@ -100,6 +102,9 @@ async function logoutUser() {
   }
 }
 
+////////////////////////////////////////////////
+/* refresh News  */
+///////////////////////////////////////////////
 async function refreshNews() {
   try {
     // Fetch the latest news items
@@ -157,3 +162,37 @@ async function refreshNews() {
     // console.error("Error refreshing news:", error);
   }
 }
+
+////////////////////////////////////////////////
+/* Fetch News Source */
+///////////////////////////////////////////////
+async function fetchNewsSources() {
+  try {
+    const response = await fetch("/news-source");
+    const data = await response.json();
+
+    const list = document.querySelector("#news-list");
+    list.innerHTML = "";
+
+    if (data.sources && data.sources.length > 0) {
+      data.sources.forEach((source) => {
+        const li = document.createElement("li");
+        li.textContent = source;
+        list.appendChild(li);
+      });
+    } else {
+      // Handle empty sources array
+      const li = document.createElement("li");
+      li.textContent = "No sources available";
+      list.appendChild(li);
+    }
+  } catch (error) {
+    console.error("Error fetching news sources:", error);
+
+    const list = document.querySelector("#news-list");
+    list.innerHTML = "<li>Error loading sources</li>";
+  }
+}
+
+// Fetch news sources on page load
+window.onload = fetchNewsSources;

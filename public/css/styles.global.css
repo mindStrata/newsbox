@@ -90,7 +90,7 @@ body {
   padding: 10px;
   height: 40px;
   width: 40px;
-  border-radius: var(--border-radius-md);
+  border-radius: var(--border-radius-full);
   border: none;
   cursor: pointer;
   /* transition: background-color 0.3s ease; */
@@ -144,7 +144,7 @@ body {
   padding: 10px;
   height: 40px;
   width: 40px;
-  border-radius: var(--border-radius-md);
+  border-radius: var(--border-radius-full);
   border: none;
   cursor: pointer;
   display: flex;
