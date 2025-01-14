@@ -1,6 +1,7 @@
 import express from "express";
 import {
   addNewsItems,
+  exportNewsArticleData,
   getRecentNewsItems,
   showHomeRoute,
 } from "../controller/news.controller.js";
@@ -26,5 +27,7 @@ router.post("/new-news", isAuthenticated, addNewsItems);
     next(error);
   }
 }); */
+
+router.get("/export-csv", isAuthenticated, exportNewsArticleData);
 
 export default router;

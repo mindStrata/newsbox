@@ -200,3 +200,37 @@ body {
   border-radius: 5px;
   font-family: var(--font-family-primary);
 }
+
+a {
+  text-decoration: none;
+}
+
+.download-articles {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px 16px;
+  border: none;
+  background-color: var(--background-primary);
+  color: var(--color-white-primary);
+  border-radius: var(--border-radius-md);
+  font-family: var(--font-family-primary);
+
+  &:hover {
+    background-color: var(--background-hover);
+  }
+}
+
+.download-articles > .download-text {
+  text-decoration: none;
+  font-size: 16px;
+}
+
+@media (max-width: 600px) {
+  .download-articles > .download-text {
+    display: none;
+  }
+}

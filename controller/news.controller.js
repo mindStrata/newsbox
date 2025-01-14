@@ -1,8 +1,15 @@
+import { format } from "fast-csv";
 import createHttpError from "http-errors";
 import OpenGraphScraper from "open-graph-scraper";
+import path from "path";
+import { fileURLToPath } from "url";
 import { NewsItem } from "../models/news.model.js";
 import { User } from "../models/user.model.js";
 import { extractDomain } from "../utils/extractDomain.js";
+
+// Get the directory name (__dirname)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Display the contents of the /home route
 export const showHomeRoute = async (req, res, next) => {
@@ -99,5 +106,47 @@ export const addNewsItems = async (req, res, next) => {
     res.status(500).send({
       error: "Failed to scrape Open Graph data or save to the database.",
     });
+  }
+};
+
+export const exportNewsArticleData = async (req, res, next) => {
+  try {
+    const news = await NewsItem.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
+
+    const user = await User.findById(req.user._id);
+
+    // Set the response headers for file download
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=${user.username}-news.csv`
+    );
+    res.setHeader("Content-Type", "text/csv");
+
+    // Create a CSV stream
+    const csvStream = format({ headers: true });
+    csvStream.pipe(res); // Pipe to the response object to send data directly to the client
+
+    // Loop through each user and write to the CSV
+    news.forEach((news) => {
+      csvStream.write({
+        ID: news._id,
+        Title: news.title,
+        Description: news.description,
+        Image: news.image,
+        URL: news.link,
+        Source: news.source,
+        UserID: news.user,
+        CreatedAt: news.createdAt,
+        UpdatedAt: news.updatedAt,
+      });
+    });
+
+    // End the stream
+    csvStream.end();
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error generating CSV");
   }
 };
