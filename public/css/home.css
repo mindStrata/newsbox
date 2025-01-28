@@ -129,8 +129,8 @@
   color: white;
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   font-size: 24px;
   display: flex;
   justify-content: center;
@@ -159,102 +159,140 @@
 .link-modal-content {
   background-color: var(--background-tertiary);
   margin: 10% auto;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 32px;
+  border-radius: 16px;
   width: 90%;
-  max-width: 450px;
+  max-width: 500px;
+  height: fit-content;
   color: var(--color-black-primary);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: width 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: width 0.3s ease, padding 0.3s ease;
 }
 
 .link-modal-title {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: var(--color-black-primary);
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .link-modal-input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid var(--color-black-secondary);
-  border-radius: 5px;
+  height: 56px;
   background-color: var(--background-input);
-  color: var(--color-black-primary);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 8px 16px;
   font-size: 1rem;
+  font-weight: lighter;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
 .link-modal-buttons {
   display: flex;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 20px;
+  flex-direction: column;
+}
+
+.link-modal-submit-btn,
+.link-modal-cancel-btn {
+  width: 100%;
+  height: 56px;
+  background-color: none;
+  color: var(--color-white-primary);
+  font-family: var(--font-family-primary);
+  font-size: 16px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: lighter;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border 0.2s ease, box-shadow 0.2s ease;
 }
 
 .link-modal-submit-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: var(--color-blue-primary);
-  color: var(--color-white-primary);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  background-color: var(--color-black-primary);
+  /* font-family: var(--font-family-primary); */
+  font-weight: 400;
 }
 
 .link-modal-submit-btn:hover {
   background-color: var(--background-hover);
-  color: var(--color-white-primary);
+  border-color: var(--color-black-primary);
 }
 
 .link-modal-cancel-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: var(--background-danger);
-  color: var(--color-white-primary);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  background-color: none;
+  font-family: var(--font-family-primary);
+  color: var(--color-black-primary);
+  font-weight: 400;
 }
 
 .link-modal-cancel-btn:hover {
-  background-color: var(--color-red-primary);
+  /* background-color: var(--color-red-primary); */
+  /* border-color: var(--background-danger); */
 }
 
 .link-close-btn {
-  color: var(--color-red-primary);
+  color: var(--color-black-primary);
   font-size: 24px;
   font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   float: right;
   cursor: pointer;
-  transition: color 0.3s ease;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-md);
+  transition: background-color 0.3s ease;
 }
 
 .link-close-btn:hover {
-  color: var(--background-danger);
+  background-color: var(--background-secondary);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .link-modal-content {
-    width: 95%;
-    max-width: 400px;
+    width: 90%;
+    max-width: 500px;
+    min-width: 400px;
+    padding: 24px;
   }
 
   .link-modal-title {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
 
-  .link-modal-input {
-    font-size: 0.9rem;
+  .link-modal-buttons {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .link-modal-content {
+    width: 90%;
+    max-width: 500px;
+    min-width: 400px;
+    margin: 20% auto;
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .link-modal-title {
+    font-size: 1.3rem;
+  }
+
+  .link-modal-buttons {
+    gap: 8px;
   }
 
   .link-modal-submit-btn,
   .link-modal-cancel-btn {
-    padding: 8px 15px;
-  }
-
-  .link-modal-buttons {
-    flex-direction: column;
-    gap: 8px;
+    height: 48px;
+    font-size: 0.9rem;
   }
 }
 

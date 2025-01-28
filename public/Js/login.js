@@ -22,11 +22,13 @@ document
 
       const data = await handleResponse(response);
 
-      alert(data.message || "Login successful!");
+      // alert(data.message || "Login successful!");
+      showToast(data.message, data.description, data.success);
       window.location.href = "/home";
     } catch (error) {
       // console.error("Login Error:", error.message);
-      alert(`Error: ${error.message}`);
+      // alert(`Error: ${error.message}`);
+      showToast("Error occured", error.message, error.success);
     }
   });
 
@@ -43,3 +45,50 @@ async function handleResponse(response) {
     );
   }
 }
+
+const toast = document.querySelector(".toast-container");
+const toastHeading = document.getElementById("toast-heading");
+const toastParagraph = document.getElementById("toast-paragraph");
+
+// Show the toast
+function showToast(heading = "Error Occured", paragraph = "", success) {
+  // console.log(success);
+  if (success && success === true) {
+    toast.classList.add("toast-login");
+  } else if (
+    !success ||
+    success === undefined ||
+    success !== true ||
+    success === false
+  ) {
+    toast.classList.add("toast-error");
+  }
+
+  toast.classList.add("toast-show");
+  // toast.classList.add
+  toast.classList.remove("toast-hide");
+
+  // Set the heading and paragraph text
+  toastHeading.textContent = heading;
+  toastParagraph.textContent = paragraph;
+
+  setTimeout(() => {
+    hideToast();
+    toastHeading.textContent = "";
+    toastParagraph.textContent = "";
+  }, 8000);
+}
+
+// Hide the toast
+function hideToast() {
+  toast.classList.add("toast-hide");
+  toast.classList.remove("toast-show");
+
+  // Remove the toast element after the hide animation completes
+  setTimeout(() => {
+    toast.remove();
+  }, 300);
+}
+
+// Close the toast manually
+document.querySelector(".close-toast-btn").addEventListener("click", hideToast);

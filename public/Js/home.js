@@ -25,7 +25,6 @@ function submitInput() {
       body: JSON.stringify({ url: inputValue }),
     })
       .then((response) => {
-
         if (response.ok) {
           return response.json();
         } else {
@@ -38,14 +37,17 @@ function submitInput() {
         }
       })
       .then((response) => {
-        alert(response.message);
+        // alert(response.message);
+        // alert(response.description);
+        showToast(response.message, response.description, response.success);
         refreshNews();
         closeModal();
         inputElement.value = "";
       })
       .catch((error) => {
         // console.error("Client-Side Error:", error.message); // Log the actual error message
-        alert(`Error: ${error.message}`); // Show the error message to the user
+        // alert(`Error: ${error.message}`); // Show the error message to the user
+        showToast("Error occured", error.message, error.success);
         closeModal();
         inputElement.value = "";
       })
@@ -53,7 +55,8 @@ function submitInput() {
         spinner.style.display = "none";
       });
   } else {
-    alert("Please enter something.");
+    // alert("Please enter something.");
+    showToast("Error occured", "Please enter valid url", false);
   }
 }
 
@@ -83,7 +86,12 @@ async function logoutUser() {
     });
 
     if (response.ok) {
-      alert("You have been logged out successfully.");
+      // alert("You have been logged out successfully.");
+      showToast(
+        "Logout Successfull",
+        "You have been logged out successfully",
+        true
+      );
 
       const modal = document.getElementById("modal");
       if (modal) modal.style.display = "none";
@@ -92,11 +100,17 @@ async function logoutUser() {
       window.location.href = "/login";
     } else {
       const errorData = await response.json();
-      alert(errorData.message || "Failed to log out. Please try again.");
+      // alert(errorData.message || "Failed to log out. Please try again.");
+      showToast("Error occured", errorData.message, false);
     }
   } catch (error) {
     // console.error("Error during logout:", error);
-    alert("An error occurred while logging out. Please try again.");
+    // alert("An error occurred while logging out. Please try again.");
+    showToast(
+      "Error occured",
+      "An error occurred while logging out. Please try again.",
+      false
+    );
   }
 }
 
@@ -157,3 +171,54 @@ async function refreshNews() {
     // console.error("Error refreshing news:", error);
   }
 }
+
+////////////////////////////////////////////////////////
+/* Show and hide toast */
+////////////////////////////////////////////////////////
+
+const toast = document.querySelector(".toast-container");
+const toastHeading = document.getElementById("toast-heading");
+const toastParagraph = document.getElementById("toast-paragraph");
+
+// Show the toast
+function showToast(heading = "Error Occured", paragraph = "", success) {
+  // console.log(success);
+  if (success && success === true) {
+    toast.classList.add("toast-success");
+  } else if (
+    !success ||
+    success === undefined ||
+    success !== true ||
+    success === false
+  ) {
+    toast.classList.add("toast-error");
+  }
+
+  toast.classList.add("toast-show");
+  // toast.classList.add
+  toast.classList.remove("toast-hide");
+
+  // Set the heading and paragraph text
+  toastHeading.textContent = heading;
+  toastParagraph.textContent = paragraph + "added";
+
+  setTimeout(() => {
+    hideToast();
+    toastHeading.textContent = "";
+    toastParagraph.textContent = "";
+  }, 8000);
+}
+
+// Hide the toast
+function hideToast() {
+  toast.classList.add("toast-hide");
+  toast.classList.remove("toast-show");
+
+  // Remove the toast element after the hide animation completes
+  setTimeout(() => {
+    toast.remove();
+  }, 300);
+}
+
+// Close the toast manually
+document.querySelector(".close-toast-btn").addEventListener("click", hideToast);

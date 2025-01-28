@@ -21,6 +21,7 @@ export const showHomeRoute = async (req, res, next) => {
       newsItem: items,
       user: req.user.name,
       username: req.user.username,
+      newsCount: items.length || 0,
     });
   } catch (error) {
     // console.error("Error rendering home page:", error);
@@ -96,7 +97,12 @@ export const addNewsItems = async (req, res, next) => {
         { new: true }
       );
 
-      res.send({ success: true, error: null, message: "Link added" });
+      res.send({
+        success: true,
+        error: null,
+        message: "Link added",
+        description: newNews.title,
+      });
     }
   } catch (error) {
     // console.error(
@@ -137,7 +143,7 @@ export const exportNewsArticleData = async (req, res, next) => {
         Image: news.image,
         URL: news.link,
         Source: news.source,
-        UserID: news.user,
+        // UserID: news.user,
         CreatedAt: news.createdAt,
         UpdatedAt: news.updatedAt,
       });

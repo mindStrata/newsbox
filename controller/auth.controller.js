@@ -61,7 +61,8 @@ export const LoginUserPOST = async (req, res, next) => {
     // Render login with a toast
     res.status(200).json({
       success: true,
-      message: "Login successful",
+      message: "Login successfull",
+      description: `Welcome to our services, again, ${user.name}`,
       token,
       error: null,
     });

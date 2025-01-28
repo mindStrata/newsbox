@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="/css/styles.global.css" />
   </head>
   <body>
-    <%- include("partials/header") %> <%- include("partials/spinner") %>
-
+    <%- include("partials/header", {newsCount}) %> <%-
+    include("partials/spinner") %> <%- include("partials/toast") %>
     <section class="card-section">
       <div class="empty-msg-section">
         <% if (newsItem.length == 0) { %>
@@ -58,14 +58,30 @@
 
       <div class="link-modal" id="modal">
         <div class="link-modal-content">
-          <span class="link-close-btn" onclick="closeModal()">&times;</span>
-          <h2 class="link-modal-title">Enter Information</h2>
+          <span class="modal-cross link-close-btn" onclick="closeModal()"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-x"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </span>
+          <h2 class="link-modal-title">Bookmark News Article</h2>
 
           <input
             type="text"
             id="userInput"
             class="link-modal-input"
-            placeholder="Type something..."
+            placeholder="News article URL"
           />
           <div class="link-modal-buttons">
             <button class="link-modal-submit-btn" onclick="submitInput()">

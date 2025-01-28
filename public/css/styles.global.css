@@ -201,6 +201,24 @@ body {
   font-family: var(--font-family-primary);
 }
 
+.export-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+/* To be removed later */
+.export-section .news-count-container .news-count-text {
+  padding: 10px;
+  border-radius: var(--border-radius-md);
+  /* background-color: #008068; */
+  color: #008068;
+  font-size: 15px;
+  font-weight: 500;
+  background-color: #e7fffb;
+}
+
 a {
   text-decoration: none;
 }
@@ -232,5 +250,104 @@ a {
 @media (max-width: 600px) {
   .download-articles > .download-text {
     display: none;
+  }
+}
+
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  left: 10px;
+  z-index: 10;
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 18px;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-md);
+  min-width: 400px;
+  max-width: 400px;
+  min-height: 80px;
+  max-height: 80px;
+
+  /* Animation setup */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Media query for tablets and small desktops */
+/* @media (max-width: 768px) {
+  .toast-container {
+    min-width: 300px;
+    max-width: 300px;
+    bottom: 15px;
+    left: 5px;
+  }
+} */
+
+/* Media query for mobile devices */
+@media (max-width: 480px) {
+  .toast-container {
+    min-width: 350px;
+    max-width: 350px;
+    padding: 4px 12px;
+    gap: 10px;
+    bottom: 10px;
+    left: 5px;
+  }
+}
+
+/* Chnage the bg color of the toast based on the api response */
+.toast-success {
+  background-color: #276ef2;
+}
+
+.toast-error {
+  background-color: #de1237;
+}
+
+.toast-login {
+  background-color: #008068;
+}
+
+.toast-container.toast-show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast-container.toast-hide {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.toast-container .text-content > h2 {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-white-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.toast-container .text-content > p {
+  font-size: 13px;
+  font-weight: 100;
+  color: var(--color-white-primary);
+}
+
+.toast-container .close-toast .close-toast-btn {
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: var(--border-radius-md);
+  background: none;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--background-secondary);
   }
 }
