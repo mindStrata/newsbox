@@ -147,7 +147,7 @@
 .link-modal {
   display: none;
   position: fixed;
-  z-index: 2;
+  z-index: 10;
   left: 0;
   top: 0;
   width: 100%;
@@ -184,8 +184,14 @@
   border-radius: 8px;
   padding: 8px 16px;
   font-size: 1rem;
-  font-weight: lighter;
+  font-weight: normal;
+  font-family: var(--font-family-primary);
   transition: border 0.2s ease, box-shadow 0.2s ease;
+
+  &::placeholder {
+    font-family: var(--font-family-primary);
+    font-weight: normal;
+  }
 }
 
 .link-modal-buttons {
@@ -306,7 +312,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 3;
+  z-index: 11;
 }
 
 .spinner {
@@ -318,7 +324,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: #000000;
+  background-color: #008068;
   animation: bounce 1.2s infinite ease-in-out;
 }
 

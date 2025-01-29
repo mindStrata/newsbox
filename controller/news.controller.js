@@ -13,12 +13,24 @@ const __dirname = path.dirname(__filename);
 
 // Display the contents of the /home route
 export const showHomeRoute = async (req, res, next) => {
+  const source = req.query.source;
+  // console.log({ source });
+
   try {
     const items = await NewsItem.find({ user: req.user._id }).sort({
       createdAt: -1,
     });
+
+    let filteredSource;
+
+    if (source) {
+      filteredSource = items.filter((news) => {
+        return source === news.source;
+      });
+    }
+
     res.render("home", {
-      newsItem: items,
+      newsItem: filteredSource || items,
       user: req.user.name,
       username: req.user.username,
       newsCount: items.length || 0,
@@ -154,5 +166,24 @@ export const exportNewsArticleData = async (req, res, next) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Error generating CSV");
+  }
+};
+
+/* Provide the news item based on the news source */
+export const filterNewsBySource = async (req, res, next) => {
+  try {
+    const user = req.user._id;
+    if (!user)
+      return next(createHttpError.InternalServerError("Something went worng"));
+
+    const sources = await NewsItem.distinct("source", {
+      user,
+    });
+    if (!sources || sources.length < 0)
+      return next(createHttpError.NotFound("No source found"));
+    sources.unshift("All");
+    res.json({ success: true, error: null, sources });
+  } catch (error) {
+    next(error);
   }
 };

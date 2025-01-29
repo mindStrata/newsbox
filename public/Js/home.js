@@ -41,6 +41,7 @@ function submitInput() {
         // alert(response.description);
         showToast(response.message, response.description, response.success);
         refreshNews();
+        fetchNewsSources();
         closeModal();
         inputElement.value = "";
       })
@@ -60,7 +61,9 @@ function submitInput() {
   }
 }
 
-/* Logout modal */
+////////////////////////////////////////////////
+/* Logout user */
+///////////////////////////////////////////////
 const modal = document.getElementById("myModal");
 const openModalBtn = document.getElementById("openModalBtn");
 const closeModalBtn = document.getElementById("closeModalBtn");
@@ -114,6 +117,9 @@ async function logoutUser() {
   }
 }
 
+////////////////////////////////////////////////
+/* refresh News  */
+///////////////////////////////////////////////
 async function refreshNews() {
   try {
     // Fetch the latest news items
@@ -222,3 +228,81 @@ function hideToast() {
 
 // Close the toast manually
 document.querySelector(".close-toast-btn").addEventListener("click", hideToast);
+
+////////////////////////////////////////////////
+/* Fetch News Source */
+///////////////////////////////////////////////
+async function fetchNewsSources() {
+  try {
+    const response = await fetch("/news-source");
+    const data = await response.json();
+
+    const list = document.querySelector("#news-list");
+    list.innerHTML = "";
+
+    // Get the current source from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedSource = urlParams.get("source");
+
+    if (data.sources && data.sources.length > 0) {
+      data.sources.forEach((source) => {
+        const li = document.createElement("li");
+        li.textContent = source;
+
+        // Highlight selected source
+        if (source === selectedSource) {
+          li.style.backgroundColor = "black";
+          li.style.color = "white";
+        }
+
+        // Add click event to redirect
+        li.addEventListener("click", () => {
+          if (source === "All") {
+            window.location.href = "/home"; // Redirect to home for "All"
+          } else {
+            window.location.href = `/home?source=${encodeURIComponent(source)}`;
+          }
+        });
+
+        list.appendChild(li);
+      });
+    } else {
+      const li = document.createElement("li");
+      li.textContent = "No sources available";
+      list.appendChild(li);
+    }
+  } catch (error) {
+    console.error("Error fetching news sources:", error);
+
+    const list = document.querySelector("#news-list");
+    list.innerHTML = "<li>Error loading sources</li>";
+  }
+}
+
+// Fetch news sources on page load
+window.onload = fetchNewsSources;
+
+///////////////////////////////////////////////////
+/* Show button when the user scrolls down */
+///////////////////////////////////////////////////
+const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+window.onscroll = function () {
+  if (
+    document.body.scrollTop > 100 ||
+    document.documentElement.scrollTop > 100
+  ) {
+    scrollToTopBtn.style.display = "block"; // Show the button when scrolling down
+  } else {
+    scrollToTopBtn.style.display = "none"; // Hide the button when at the top
+  }
+};
+
+// Scroll to the top when the button is clicked
+scrollToTopBtn.addEventListener("click", function () {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "smooth", // Smooth scrolling effect
+  });
+});

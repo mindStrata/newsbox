@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= user %></title>
     <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/source_tab.css" />
     <link rel="stylesheet" href="/css/styles.global.css" />
   </head>
-  <body>
+
     <%- include("partials/header", {newsCount}) %> <%-
-    include("partials/spinner") %> <%- include("partials/toast") %>
+    include("partials/spinner") %> <%- include("partials/toast") %> <%-
+    include("partials/source_tab") %>
+    
     <section class="card-section">
       <div class="empty-msg-section">
         <% if (newsItem.length == 0) { %>
@@ -94,6 +97,10 @@
         </div>
       </div>
     </div>
+    <button id="scrollToTopBtn" class="scroll-to-top-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-up"><path d="M8 6L12 2L16 6"/><path d="M12 2V22"/></svg>
+    </button>
+
     <script src="/Js/home.js"></script>
   </body>
 </html>

@@ -11,6 +11,8 @@
   --color-white-primary: #ffffff;
   --color-red-primary: #de1237;
   --color-blue-primary: #276ef2;
+  --color-green-primary: #008068;
+  --color-green-secondary: #e3fffa;
 
   /* ++++BACKGROUND COLOR++++ */
   --background-primary: #000000;
@@ -65,11 +67,18 @@ body {
   align-items: center;
   padding: 10px 40px;
   background-color: var(--background-tertiary);
-  position: sticky;
+  /* position: sticky; */
   margin-bottom: 10px;
   border-bottom: 2px solid var(--color-black-secondary);
-  top: 0px;
+  /* top: 0px; */
   z-index: 1;
+}
+
+/* Media query for small screens (max-width: 600px) */
+@media (max-width: 600px) {
+  .global-header {
+    padding: 10px 20px; /* Reduced padding for smaller screens */
+  }
 }
 
 .global-logo {
@@ -90,7 +99,7 @@ body {
   padding: 10px;
   height: 40px;
   width: 40px;
-  border-radius: var(--border-radius-md);
+  border-radius: var(--border-radius-full);
   border: none;
   cursor: pointer;
   /* transition: background-color 0.3s ease; */
@@ -108,7 +117,7 @@ body {
 .modal {
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 6;
   left: 0;
   top: 0;
   width: 100%;
@@ -144,7 +153,7 @@ body {
   padding: 10px;
   height: 40px;
   width: 40px;
-  border-radius: var(--border-radius-md);
+  border-radius: var(--border-radius-full);
   border: none;
   cursor: pointer;
   display: flex;
@@ -216,7 +225,7 @@ body {
   color: #008068;
   font-size: 15px;
   font-weight: 500;
-  background-color: #e7fffb;
+  background-color: var(--color-green-secondary);
 }
 
 a {
@@ -351,3 +360,25 @@ a {
     background-color: var(--background-secondary);
   }
 }
+
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 90px;
+  right: 30px;
+  padding: 10px;
+  background-color: var(--color-green-primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: 16px;
+  cursor: pointer;
+  display: none; /* Initially hidden */
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* .scroll-to-top-btn:hover {
+  background-color: #0056b3;
+} */
