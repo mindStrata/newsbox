@@ -6,6 +6,13 @@
   scrollbar-width: none;
 }
 
+/* Media query for mobile devices (max-width: 600px) */
+@media (max-width: 600px) {
+  .source-tab-container {
+    padding: 6px 10px; /* Reduced padding for mobile devices */
+  }
+}
+
 .source-tab-container > ul {
   display: flex;
   flex-direction: row;

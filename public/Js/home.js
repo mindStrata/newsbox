@@ -174,14 +174,33 @@ async function fetchNewsSources() {
     const list = document.querySelector("#news-list");
     list.innerHTML = "";
 
+    // Get the current source from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedSource = urlParams.get("source");
+
     if (data.sources && data.sources.length > 0) {
       data.sources.forEach((source) => {
         const li = document.createElement("li");
         li.textContent = source;
+
+        // Highlight selected source
+        if (source === selectedSource) {
+          li.style.backgroundColor = "black";
+          li.style.color = "white";
+        }
+
+        // Add click event to redirect
+        li.addEventListener("click", () => {
+          if (source === "All") {
+            window.location.href = "/home"; // Redirect to home for "All"
+          } else {
+            window.location.href = `/home?source=${encodeURIComponent(source)}`;
+          }
+        });
+
         list.appendChild(li);
       });
     } else {
-      // Handle empty sources array
       const li = document.createElement("li");
       li.textContent = "No sources available";
       list.appendChild(li);

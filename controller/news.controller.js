@@ -6,12 +6,24 @@ import { extractDomain } from "../utils/extractDomain.js";
 
 // Display the contents of the /home route
 export const showHomeRoute = async (req, res, next) => {
+  const source = req.query.source;
+  // console.log({ source });
+
   try {
     const items = await NewsItem.find({ user: req.user._id }).sort({
       createdAt: -1,
     });
+
+    let filteredSource;
+
+    if (source) {
+      filteredSource = items.filter((news) => {
+        return source === news.source;
+      });
+    }
+
     res.render("home", {
-      newsItem: items,
+      newsItem: filteredSource || items,
       user: req.user.name,
       username: req.user.username,
     });
