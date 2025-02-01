@@ -1,6 +1,7 @@
 import express from "express";
 import {
   addNewsItems,
+  deleteNewsItem,
   exportNewsArticleData,
   filterNewsBySource,
   getRecentNewsItems,
@@ -19,5 +20,7 @@ router.post("/new-news", isAuthenticated, addNewsItems);
 router.get("/news-source", isAuthenticated, filterNewsBySource);
 
 router.get("/export-csv", isAuthenticated, exportNewsArticleData);
+
+router.delete("/delete-news/:id", isAuthenticated, deleteNewsItem)
 
 export default router;

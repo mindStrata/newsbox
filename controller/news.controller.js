@@ -187,3 +187,33 @@ export const filterNewsBySource = async (req, res, next) => {
     next(error);
   }
 };
+
+////////////////////////////////////////
+/* Delete News Item */
+///////////////////////////////////////
+export const deleteNewsItem = async (req, res, next) => {
+  const newsID = req.params.id; // Use req.params.id to get the id from the URL
+
+  try {
+    // Check if the news item exists
+    const isExist = await NewsItem.findById(newsID);
+    if (!isExist) return next(createHttpError.NotFound("News not found"));
+
+    // If news exists, delete it
+    await NewsItem.findByIdAndDelete(newsID);
+
+    await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $pull: { newsItems: newsID }, // Remove the news item ID from the user's newsItems array
+        $inc: { __v: 1 }, // Increment the version key to handle concurrency
+      },
+      { new: true }
+    );
+
+    // Send a response indicating success
+    res.status(200).json({ message: "News item deleted successfully" });
+  } catch (error) {
+    next(error); // Pass errors to error handling middleware
+  }
+};

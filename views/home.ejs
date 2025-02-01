@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="/css/home.css" />
     <link rel="stylesheet" href="/css/source_tab.css" />
     <link rel="stylesheet" href="/css/styles.global.css" />
+    <link 
+  rel="stylesheet" 
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+/>
   </head>
 
     <%- include("partials/header", {newsCount}) %> <%-
@@ -26,34 +30,39 @@
       </div>
 
       <% newsItem.forEach(article => { %>
-      <a
-        href="<%= article.link %>"
-        target="_blank"
-        style="text-decoration: none; color: inherit"
-      >
-        <div class="card container">
-          <div class="card-image-container">
-            <img
-              src="<%= article.image %>"
-              alt="News Image"
-              class="card-image"
-            />
-            <div class="card-source-overlay">
-              <% if (article.source) { %><%= article.source %> <% } else if
-              (article.siteName) { %><%= article.siteName %> <% } else {
-              %>Unknown <% } %>
+        <a
+          href="<%= article.link %>"
+          target="_blank"
+          style="text-decoration: none; color: inherit"
+        >
+          <div class="card container">
+            <div class="card-image-container" style="position: relative;">
+              <!-- Delete Button Icon -->
+              <button 
+                class="delete-btn" 
+                style="position: absolute; top: 10px; right: 10px; background: transparent; border: none; cursor: pointer;">
+                <i class="fas fa-trash-alt" style="color: red; font-size: 24px;"></i>
+              </button>
+              
+              <img
+                src="<%= article.image %>"
+                alt="News Image"
+                class="card-image"
+              />
+              <div class="card-source-overlay">
+                <% if (article.source) { %><%= article.source %> <% } else if (article.siteName) { %><%= article.siteName %> <% } else { %>Unknown <% } %>
+              </div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title"><%= article.title %></h3>
+              <p class="card-description">
+                <%= article.description.length > 200 ? article.description.slice(0, 200) + "..." : article.description %>
+              </p>
             </div>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><%= article.title %></h3>
-            <p class="card-description">
-              <%= article.description.length > 200 ?
-              article.description.slice(0, 200) + "..." : article.description %>
-            </p>
-          </div>
-        </div>
-      </a>
+        </a>
       <% }); %>
+      
     </section>
 
     <div>
