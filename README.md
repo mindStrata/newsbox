@@ -1,71 +1,36 @@
-# NewsBox
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Welcome to **NewsBox**, a simple and powerful app to save, organize, and explore news links. With NewsBox, you can extract and store key information like titles, images, and sources from any link. Stay informed and keep all your favorite articles in one place!
+## Getting Started
 
----
-
-## **Technologies Used**
-
-### **Backend and Server**
-
-<img src="https://cdn.prod.website-files.com/6320125ace536b6ad148eca3/66502d746f57d299fe0e0c31_Image%201-Express.js.webp" alt="Express.js Logo" width="80">
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" alt="Node.js Logo" width="80">
-
-### **Frontend and Templating**
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript Logo" width="80">
-
-<img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*-8c5bXmKhpKg8NRnBMu0zQ.gif" alt="EJS Logo" width="80">
-
-### **Database and ORM**
-
-<img src="https://avatars.githubusercontent.com/u/7552965?s=200&v=4" alt="Mongoose Logo" width="80">
-
-<img src="https://i.pinimg.com/736x/b2/31/7e/b2317e8174e5fcef57c74c662f57d155.jpg" alt="MongoDB Logo" width="80">
-
----
-
-## **How to Use**
-
-Follow these simple steps to download and run the app locally:
-
-### **1. Clone the Repository**
-
-First, make sure you have [Git](https://git-scm.com/) installed on your computer. Then, run the following command to clone the repository:
+First, run the development server:
 
 ```bash
-git clone https://github.com/mindStrata/newsbox.git
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-### **2. Navigate to the Project Folder**
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Move into the project directory:
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-```bash
-cd newsbox
-```
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-### **3. Install Dependencies**
+## Learn More
 
-Ensure you have [Node.js](https://nodejs.org/) installed. Then, install the necessary packages using **npm**:
+To learn more about Next.js, take a look at the following resources:
 
-```bash
-npm install
-```
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-### **4. Run the App**
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-After installing the packages, start the server with:
+## Deploy on Vercel
 
-```bash
-npm start
-```
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-The app will now be running locally at (by default):
-
-```text
-http://localhost:4100
-```
-
----
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
