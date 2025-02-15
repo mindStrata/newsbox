@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { Geist, Geist_Mono, Geologica } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Geologica,
+  Roboto,
+  EB_Garamond,
+} from "next/font/google";
 import "./globals.css";
 
-/* const Geologica = localFont({
-  src: './Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf',
-  display: 'swap',
-  
-}) */
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+});
 
 const geologica = Geologica({
   subsets: ["latin"],
@@ -35,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="">
       <body
         className={`${geologica.className} ${geistMono.variable} antialiased`}
       >
