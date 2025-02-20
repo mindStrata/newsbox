@@ -1,5 +1,5 @@
 import NewsSources, { NewsCardSection } from "@/components/client/client";
-import NewsItem from "@/components/client/news-item";
+import NewsItem, { DrawerDemo } from "@/components/client/news-item";
 import UserHeader from "@/components/Header/UserHeader";
 import type { Metadata } from "next";
 // import { useRouter } from "next/navigation";
@@ -40,6 +40,7 @@ export default async function UserPage({
       </div>
 
       <NewsItem />
+      {/* <DrawerDemo/> */}
     </div>
   );
 }
