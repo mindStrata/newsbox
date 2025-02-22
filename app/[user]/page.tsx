@@ -34,7 +34,7 @@ export default async function UserPage({
 
   return (
     <div className="px-2 lg:px-10">
-      <SubHeading />
+      {/* <SubHeading /> */}
 
       <NewsItem />
       {/* <DrawerDemo/> */}

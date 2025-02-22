@@ -7,6 +7,7 @@ import {
   EB_Garamond,
 } from "next/font/google";
 import "./globals.css";
+import ScrollToTopButton from "@/utils/scrollToTopButton";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -43,7 +44,10 @@ export default function RootLayout({
       <body
         className={`${geologica.className} ${geistMono.variable} antialiased`}
       >
+        <span>
         {children}
+          </span>
+        <ScrollToTopButton />
       </body>
     </html>
   );
