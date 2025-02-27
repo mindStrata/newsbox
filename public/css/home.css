@@ -101,8 +101,10 @@
   /* text-decoration: underline; */
 
   text-decoration: underline;
-  text-decoration-thickness: 2.3px; /* Control underline thickness */
-  text-underline-position: under; /* Position of the underline */
+  text-decoration-thickness: 2.3px;
+  /* Control underline thickness */
+  text-underline-position: under;
+  /* Position of the underline */
 }
 
 .card-source {
@@ -346,7 +348,21 @@
   100% {
     transform: scale(0);
   }
+
   40% {
     transform: scale(1);
   }
+}
+
+.delete-btn {
+  position: absolute;
+  top: 13px;
+  right: 13px;
+  background-color: var(--background-tertiary);
+  color: var(--color-red-primary);
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  padding: 4px;
+  border-radius: var(--border-radius-md);
 }

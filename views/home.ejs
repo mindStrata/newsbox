@@ -1,115 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= user %></title>
-    <link rel="stylesheet" href="/css/home.css" />
-    <link rel="stylesheet" href="/css/source_tab.css" />
-    <link rel="stylesheet" href="/css/styles.global.css" />
-    <link 
-  rel="stylesheet" 
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-/>
-  </head>
 
-    <%- include("partials/header", {newsCount}) %> <%-
-    include("partials/spinner") %> <%- include("partials/toast") %> <%-
-    include("partials/source_tab") %>
-    
-    <section class="card-section">
-      <div class="empty-msg-section">
-        <% if (newsItem.length == 0) { %>
-        <h3 class="empty-msg-heading">
-          @<%= username %> hasn't stored news article
-        </h3>
-        <p class="empty-msg-text">
-          Once they do, those news articles will appear here.
-        </p>
-        <% } %>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    <%= user %>
+  </title>
+  <link rel="stylesheet" href="/css/home.css" />
+  <link rel="stylesheet" href="/css/source_tab.css" />
+  <link rel="stylesheet" href="/css/css-partials/delete-modal.css" />
+  <link rel="stylesheet" href="/css/styles.global.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+</head>
 
-      <% newsItem.forEach(article => { %>
-        <a
-          href="<%= article.link %>"
-          target="_blank"
-          style="text-decoration: none; color: inherit"
-        >
-          <div class="card container">
-            <div class="card-image-container" style="position: relative;">
-              <!-- Delete Button Icon -->
-              <button 
-                class="delete-btn" 
-                style="position: absolute; top: 10px; right: 10px; background: transparent; border: none; cursor: pointer;">
-                <i class="fas fa-trash-alt" style="color: red; font-size: 24px;"></i>
-              </button>
-              
-              <img
-                src="<%= article.image %>"
-                alt="News Image"
-                class="card-image"
-              />
-              <div class="card-source-overlay">
-                <% if (article.source) { %><%= article.source %> <% } else if (article.siteName) { %><%= article.siteName %> <% } else { %>Unknown <% } %>
+<%- include("partials/header", {newsCount}) %> <%- include("partials/spinner") %> <%- include("partials/toast") %> <%-
+        include("partials/source_tab") %>
+        <%- include("partials/delete-modal") %>
+          <section class="card-section">
+            <div class="empty-msg-section">
+              <% if (newsItem.length==0) { %>
+                <h3 class="empty-msg-heading">
+                  @<%= username %> hasn't stored news article
+                </h3>
+                <p class="empty-msg-text">
+                  Once they do, those news articles will appear here.
+                </p>
+                <% } %>
+            </div>
+
+            <% newsItem.forEach(article=> { %>
+              <a href="<%= article.link %>" target="_blank" style="text-decoration: none; color: inherit">
+                <div class="card container">
+                  <div class="card-image-container" style="position: relative;">
+                    <!-- Delete Button Icon -->
+                    <button class="delete-btn" onclick="handleButtonDelete(event, '<%= article._id %>', '<%= article.title%>')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-trash-2">
+                        <path d="M3 6h18" />
+                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                        <line x1="10" x2="10" y1="11" y2="17" />
+                        <line x1="14" x2="14" y1="11" y2="17" />
+                      </svg>
+                    </button>
+
+                    <img src="<%= article.image %>" alt="News Image" class="card-image" />
+                    <div class="card-source-overlay">
+                      <% if (article.source) { %>
+                        <%= article.source %>
+                          <% } else if (article.siteName) { %>
+                            <%= article.siteName %>
+                              <% } else { %>Unknown <% } %>
+                    </div>
+                  </div>
+                  <div class="card-content">
+                    <h3 class="card-title">
+                      <%= article.title %>
+                    </h3>
+                    <p class="card-description">
+                      <%= article.description.length> 200 ? article.description.slice(0, 200) + "..." :
+                        article.description %>
+                    </p>
+                  </div>
+                </div>
+              </a>
+              <% }); %>
+
+          </section>
+
+          <div>
+            <button class="fixed-button" onclick="openModal()">+</button>
+
+            <div class="link-modal" id="modal">
+              <div class="link-modal-content">
+                <span class="modal-cross link-close-btn" onclick="closeModal()"><svg xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </span>
+                <h2 class="link-modal-title">Bookmark News Article</h2>
+
+                <input type="text" id="userInput" class="link-modal-input" placeholder="News article URL" />
+                <div class="link-modal-buttons">
+                  <button class="link-modal-submit-btn" onclick="submitInput()">
+                    Submit
+                  </button>
+                  <button class="link-modal-cancel-btn" onclick="closeModal()">
+                    Cancel
+                  </button>
+                </div>
               </div>
             </div>
-            <div class="card-content">
-              <h3 class="card-title"><%= article.title %></h3>
-              <p class="card-description">
-                <%= article.description.length > 200 ? article.description.slice(0, 200) + "..." : article.description %>
-              </p>
-            </div>
           </div>
-        </a>
-      <% }); %>
-      
-    </section>
-
-    <div>
-      <button class="fixed-button" onclick="openModal()">+</button>
-
-      <div class="link-modal" id="modal">
-        <div class="link-modal-content">
-          <span class="modal-cross link-close-btn" onclick="closeModal()"
-            ><svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-x"
-            >
-              <path d="M18 6 6 18" />
-              <path d="m6 6 12 12" />
+          <button id="scrollToTopBtn" class="scroll-to-top-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-move-up">
+              <path d="M8 6L12 2L16 6" />
+              <path d="M12 2V22" />
             </svg>
-          </span>
-          <h2 class="link-modal-title">Bookmark News Article</h2>
+          </button>
 
-          <input
-            type="text"
-            id="userInput"
-            class="link-modal-input"
-            placeholder="News article URL"
-          />
-          <div class="link-modal-buttons">
-            <button class="link-modal-submit-btn" onclick="submitInput()">
-              Submit
-            </button>
-            <button class="link-modal-cancel-btn" onclick="closeModal()">
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <button id="scrollToTopBtn" class="scroll-to-top-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-up"><path d="M8 6L12 2L16 6"/><path d="M12 2V22"/></svg>
-    </button>
+          <script src="/Js/home.js"></script>
+          </body>
 
-    <script src="/Js/home.js"></script>
-  </body>
 </html>

@@ -137,44 +137,58 @@ async function refreshNews() {
 
       // Populate the new content dynamically
       if (newsItems.length === 0) {
-        cardSection.innerHTML = `<h3>You do not have any bookmarked news articles, <%= user %>.</h3>`;
+        cardSection.innerHTML = `<h3>You do not have any bookmarked news articles.</h3>`;
       } else {
         newsItems.forEach((article) => {
           const articleHTML = `
-        <a
-          href="${article.link}"
-          target="_blank"
-          style="text-decoration: none; color: inherit"
-        >
-          <div class="card container">
-            <div class="card-image-container">
-              <img
-                src="${article.image}"
-                alt="News Image"
-                class="card-image"
-              />
-              <div class="card-source-overlay">
-                ${article.source || article.siteName || "Unknown"}
+            <a href="${
+              article.link
+            }" target="_blank" style="text-decoration: none; color: inherit">
+              <div class="card container">
+                <div class="card-image-container" style="position: relative;">
+                  
+                  <!-- Delete Button -->
+                  <button class="delete-btn" onclick="handleButtonDelete(event, '${
+                    article._id
+                  }', '${article.title}')"
+                    style="position: absolute; top: 10px; right: 10px; background: transparent; border: none; cursor: pointer; z-index: 1000;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      class="lucide lucide-trash-2">
+                      <path d="M3 6h18"></path>
+                      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                      <line x1="10" x2="10" y1="11" y2="17"></line>
+                      <line x1="14" x2="14" y1="11" y2="17"></line>
+                    </svg>
+                  </button>
+
+                  <img src="${
+                    article.image
+                  }" alt="News Image" class="card-image" />
+                  <div class="card-source-overlay">
+                    ${article.source || article.siteName || "Unknown"}
+                  </div>
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">${article.title}</h3>
+                  <p class="card-description">
+                    ${
+                      article.description.length > 200
+                        ? article.description.slice(0, 200) + "..."
+                        : article.description
+                    }
+                  </p>
+                </div>
               </div>
-            </div>
-            <div class="card-content">
-              <h3 class="card-title">${article.title}</h3>
-              <p class="card-description">
-                ${
-                  article.description.length > 200
-                    ? article.description.slice(0, 200) + "..."
-                    : article.description
-                }
-              </p>
-            </div>
-          </div>
-        </a>`;
+            </a>`;
+
           cardSection.insertAdjacentHTML("beforeend", articleHTML);
         });
       }
     }
   } catch (error) {
-    // console.error("Error refreshing news:", error);
+    console.error("Error refreshing news:", error);
   }
 }
 
@@ -306,3 +320,45 @@ scrollToTopBtn.addEventListener("click", function () {
     behavior: "smooth", // Smooth scrolling effect
   });
 });
+
+//////////////////////////////////////////////////
+/* DELETE NEWS */
+//////////////////////////////////////////////////
+
+let newsArticleID;
+
+function handleButtonDelete(event, deleteNewsID, deleteNewsTitle) {
+  event.stopPropagation();
+  event.preventDefault();
+  // alert("Button clicked!");
+  newsArticleID = deleteNewsID;
+  document.getElementById("deleteModal").style.display = "block";
+  document.getElementById("show-news-id").textContent = deleteNewsTitle;
+}
+
+function confirmDeleteNews() {
+  fetch(`/delete-news/${newsArticleID}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to delete article");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      alert(data.message || "Article deleted successfully");
+      // location.reload(); // Refresh the page to reflect changes
+      refreshNews();
+      closeDeleteModal()
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("Error deleting article");
+    });
+}
+
+function closeDeleteModal() {
+  document.getElementById("deleteModal").style.display = "none";
+  // deleteArticleId = null;
+}

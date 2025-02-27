@@ -200,12 +200,12 @@ export const deleteNewsItem = async (req, res, next) => {
     if (!isExist) return next(createHttpError.NotFound("News not found"));
 
     // If news exists, delete it
-    await NewsItem.findByIdAndDelete(newsID);
+    const deletedItem = await NewsItem.findByIdAndDelete(newsID);
 
     await User.findByIdAndUpdate(
       req.user._id,
       {
-        $pull: { newsItems: newsID }, // Remove the news item ID from the user's newsItems array
+        $pull: { newsItems: deletedItem._id }, // Remove the news item ID from the user's newsItems array
         $inc: { __v: 1 }, // Increment the version key to handle concurrency
       },
       { new: true }
