@@ -1,10 +1,12 @@
 /* Add link modal */
 function openModal() {
   document.getElementById("modal").style.display = "flex";
+  document.body.style.overflow = "hidden";
 }
 
 function closeModal() {
   document.getElementById("modal").style.display = "none";
+  document.body.style.overflow = "auto";
 }
 
 // Add link
@@ -70,15 +72,18 @@ const closeModalBtn = document.getElementById("closeModalBtn");
 
 openModalBtn.onclick = function () {
   modal.style.display = "block";
+  document.body.style.overflow = "hidden";
 };
 
 closeModalBtn.onclick = function () {
   modal.style.display = "none";
+  document.body.style.overflow = "auto";
 };
 
 window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
+    document.body.style.overflow = "auto";
   }
 };
 
